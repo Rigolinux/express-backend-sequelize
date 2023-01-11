@@ -5,13 +5,19 @@ import router from './routes/Routes';
 import sequelize  from './database/conect';
 const app = express();
 
+import './models/Entries';
+
 //use router middleware
 app.use('/', router);
 
 const server = async() => {
   try {
-  await sequelize.authenticate();
-  console.log('Connection has been established successfully.');
+    sequelize.sync({ force: true }).then(() => {
+      console.log('Connection has been established successfully.');
+      // ...
+    });
+    
+    
 } catch (error) {
   console.error('Unable to connect to the database:', error);
 }
